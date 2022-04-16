@@ -1,8 +1,8 @@
 # genX
 
-This is a set of R functions that infers a species tree from gene trees estimated, possibly with error, from DNA sequences.  It is based on the GLASS/Maximum Tree as implemented in STEM, but attempts to correct for the error between true and estimated gene trees using the method of clustering in general measurement error models discussed by Su et. al.  It is relatively fast and did show improved accuracy over STEM in terms of RF distance from the true species tree in simulation studies and two empirical datasets.
+This is a set of R functions that infers a species tree from gene trees estimated, possibly with error, from DNA sequences.  It is based on the GLASS/Maximum Tree as implemented in STEM, but attempts to correct for the error between true and estimated gene trees using the method of clustering in general measurement error models.  It is relatively fast and did show improved accuracy over STEM in terms of RF distance from the true species tree in simulation studies and two empirical datasets.
 
-
+Papers referenced are shown below.
 GLASS:
 E. Mossel and S. Roch. Incomplete lineage sorting: Consistent phylogeny estimation from multiple loci. IEEE/ACM Transactions on Computational Biology and Bioinformatics, 7(1):166–171, 2010.
 
