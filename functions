@@ -51,7 +51,7 @@ genX <- function(W, nloci, nspecies, theta) {  #W is output from pwdists functio
           }
           
 ##load the above functions, assign W <- pwdists("genetrees.txt")
-##where "genetrees.txt" is file of trees in Newick format
+##where "genetrees.txt" is file of gene trees in Newick format
 ##then run genX function with the indicated arguments
 
 
