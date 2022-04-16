@@ -1,0 +1,58 @@
+library(ape)
+library(gdata)
+
+##functions needed for genX
+#obtain pairwise distances between taxa from a single gene tree
+pwd1 <- function(tree){
+     nt <- length(tree$tip.label) #count number of taxa
+     dm <- matrix(0, nt, nt)  #set up matrix to store pwdist for one tree
+     taxa <- as.character(1:nt)  #taxa need to be named 1:4 etc. in order.
+     for (k in 1:(nt-1)){
+        for (i in 1:(nt-k)){
+              dm[i,i+k] <- max(drop.tip(tree, taxa[taxa!=taxa[i] & taxa!=taxa[i+k]])$edge.length)
+              #pwdist bw taxa (i, i+k)
+                            } #end i loop
+                        } #end k loop
+     pwd1 <- t(dm)[lower.tri(t(dm))] #transpose to get the values in the "right" order
+     return(pwd1)
+     }
+                      
+                      
+#get a matrix of pairwise distances from multiple trees
+pwdists <- function(in.file){ #in.file is a multiphylo object
+            trees <- read.tree(in.file) #read in trees
+            est_gt <- data.frame(matrix(unlist(lapply(trees, pwd1)), byrow=TRUE, nrow=length(trees)))
+            return(est_gt)
+            }
+                            
+                            
+dist.mat <- function(pwdist.obj, nt, theta){
+        dm <- matrix(0, nt, nt)
+        mins<- apply(pwdist.obj,2, function(x) min(x[x>0]))/theta   #dividing by theta here to mimic distance matrix in STEM
+        upperTriangle(dm, byrow=TRUE) <- mins #needs library(gdata)
+        return(dm)
+        }
+        
+
+
+#Infer a species tree from gene trees that may be estimated with error
+genX <- function(W, nloci, nspecies, theta) {  #W is output from pwdists function
+          W <- W/(theta/2)  #get distances into coalescent units from mutation units
+          est.tau <- apply(W, 2, function(x) mean(x)-1)  #method of moments est. for tau
+          expos <-  matrix(replicate(nloci*choose(nspecies,2), rexp(1) ), nrow=nloci, ncol=choose(nspecies,2))
+          X.tilde <- matrix(NA, nloci, choose(nspecies,2))
+            for (j in 1:choose(nspecies,2)){
+                  X.tilde[,j] <- expos[,j] + est.tau[j]
+                  }
+          dm <- dist.mat(X.tilde, nt=nspecies, theta=1)  #loading in W already accounts for theta, so set theta=1 here
+          hc <- hclust(as.dist(t(dm)), method="single")
+          estST <- as.phylo(hc)
+          return(estST)
+          }
+          
+##load the above functions, assign W <- pwdists("genetrees.txt")
+##where "genetrees.txt" is file of trees in Newick format
+##then run genX function with the indicated arguments
+
+
+
