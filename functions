@@ -36,7 +36,8 @@ dist.mat <- function(pwdist.obj, nt, theta){
 
 
 #Infer a species tree from gene trees that may be estimated with error
-genX <- function(W, nloci, nspecies, theta) {  #W is output from pwdists function
+genX <- function(genetrees, nloci, nspecies, theta) {  
+          W <- pwdists(genetrees)
           W <- W/(theta/2)  #get distances into coalescent units from mutation units
           est.tau <- apply(W, 2, function(x) mean(x)-1)  #method of moments est. for tau
           expos <-  matrix(replicate(nloci*choose(nspecies,2), rexp(1) ), nrow=nloci, ncol=choose(nspecies,2))
@@ -44,15 +45,17 @@ genX <- function(W, nloci, nspecies, theta) {  #W is output from pwdists functio
             for (j in 1:choose(nspecies,2)){
                   X.tilde[,j] <- expos[,j] + est.tau[j]
                   }
-          dm <- dist.mat(X.tilde, nt=nspecies, theta=1)  #loading in W already accounts for theta, so set theta=1 here
+          dm <- dist.mat(X.tilde, nt=nspecies, theta=1)  #already accounted for theta, so set theta=1 here
           hc <- hclust(as.dist(t(dm)), method="single")
           estST <- as.phylo(hc)
           return(estST)
           }
           
-##load the above functions, assign W <- pwdists("genetrees.txt")
-##where "genetrees.txt" is file of gene trees in Newick format
+##load the above functions
 ##then run genX function with the indicated arguments
+##example: genX("genetrees.txt", 1000, 8, 0.01)
+##where genetree.txt is file of 1000 eight-taxon gene trees in Newick format
+##theta is population scaled mutation rate; could be estimated using program such as 'pegas' R package
 
 
 
