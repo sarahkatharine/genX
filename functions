@@ -56,6 +56,7 @@ genX <- function(genetrees, nloci, nspecies, theta) {
 ##example: genX("genetrees.txt", 1000, 8, 0.01)
 ##where genetree.txt is file of 1000 eight-taxon gene trees in Newick format
 ##theta is population scaled mutation rate; could be estimated using program such as 'pegas' R package
+##taxa in the gene trees need to be named 1, 2, 3, ... etc
 
 
 
