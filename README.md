@@ -2,8 +2,6 @@
 
 This is a set of R functions that infers a species tree from gene trees estimated, possibly with error, from DNA sequences.  It is based on the GLASS/Maximum Tree as implemented in STEM, but attempts to correct for the error between true and estimated gene trees using clustering in general measurement error models.  It is relatively fast and showed improved accuracy over STEM in terms of RF distance from the true species tree in simulation studies and two empirical datasets.  
 
-Note: The "pwdists" function is separate from the main genX function which is a bit inefficient; this is left over from earlier stages of the project when the pwdists function was used frequently on its own to examine, for example, differences between true and estimated gene trees.
-
 
 Papers referenced are shown below.
 
