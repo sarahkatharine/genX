@@ -1,6 +1,8 @@
 # genX
 
-This is a set of R functions that infers a species tree from gene trees estimated, possibly with error, from DNA sequences.  It is based on the GLASS/Maximum Tree as implemented in STEM, but attempts to correct for the error between true and estimated gene trees using clustering in general measurement error models.  It is relatively fast and showed improved accuracy over STEM in terms of RF distance from the true species tree in simulation studies and two empirical datasets.  
+This is a set of R functions that infers a species tree from gene trees estimated, possibly with error, from DNA sequences.  It is based on the GLASS/Maximum Tree as implemented in STEM, but attempts to correct for the error between true and estimated gene trees using clustering in general measurement error models.  It is relatively fast and showed improved accuracy over STEM in terms of RF distance from the true species tree in simulation studies and two empirical datasets. 
+
+It does require an estimate of the population scaled mutation rate theta.  While the value of theta does not affect the topology returned by STEM, not supplying a reasonably accurate estimate of it here (say, using 1) can result in negative distance estimates between species and does affect the topology.  For the simulated data that this function was tested on, theta was known.  For the empirical datasets, the function performed satisfactorily with theta estimated using the 'pegas' R package.
 
 
 Papers referenced are shown below.
