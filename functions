@@ -41,7 +41,7 @@ genX <- function(genetrees, nloci, nspecies, theta) {
           W <- W/(theta/2)  #get distances into coalescent units from mutation units
           est.tau <- apply(W, 2, function(x) mean(x)-1)  #method of moments est. for tau
           expos <-  matrix(replicate(nloci*choose(nspecies,2), rexp(1) ), nrow=nloci, ncol=choose(nspecies,2))
-          X.tilde <- matrix(NA, nloci, choose(nspecies,2))
+          X.tilde <- matrix(NA, nloci, choose(nspecies,2))  
             for (j in 1:choose(nspecies,2)){
                   X.tilde[,j] <- expos[,j] + est.tau[j]
                   }
@@ -54,7 +54,7 @@ genX <- function(genetrees, nloci, nspecies, theta) {
 ##load the above functions
 ##then run genX function with the indicated arguments
 ##example: genX("genetrees.txt", 1000, 8, 0.01)
-##where genetree.txt is file of 1000 eight-taxon gene trees in Newick format
+##where genetrees.txt is file of 1000 eight-taxon gene trees in Newick format, with est. of 0.01 for theta
 ##theta is population scaled mutation rate; could be estimated using program such as 'pegas' R package
 ##taxa in the gene trees need to be named 1, 2, 3, ... etc
 
